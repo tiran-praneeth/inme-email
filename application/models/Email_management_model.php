@@ -3,25 +3,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Email_management_model extends CI_Model {
 
-	function get_email_fun_list($function_name)
+	function get_email_fun_list($email_queue_list)
 	{
 		$this->db->select('function_name, receiver_code, email_subject, email_header, email_body, email_footer');
 		$this->db->from('email_function_template');
-		// $this->db->where_in('function_name', $function_array);
-		$this->db->where('function_name',$function_name);
+		$this->db->where('function_name',$email_queue_list['email_template']);
+		$this->db->where('app_code',$email_queue_list['app_code']);
 		$this->db->where('status',1);
 
 		$result = $this->db->get()->result_array();
 		return $result;
 	}
 
-	function get_instant_email_queue($function_name, $app_code)
+	function get_instant_email_queue()
 	{
-		$this->db->select('app_code, email_template, primary_email, cc_email, bcc_email, email_data, attached_url');
+		$this->db->select('id, app_code, email_template, primary_email, cc_email, bcc_email, email_data, attached_url');
 		$this->db->from('instant_email_queue');
-		$this->db->where('email_template',$function_name);
-		$this->db->where('app_code',$app_code);
-		$this->db->where('status',1);
+		$this->db->where('status',0);
+		$this->db->limit(5, 0);
 
 		$result = $this->db->get()->result_array();
 		return $result;
@@ -35,7 +34,6 @@ class Email_management_model extends CI_Model {
 		$this->db->where('status',1);
 
 		$result = $this->db->get();
-
 		if ($result->num_rows() > 0) {
 			return 1;
 		} else {
@@ -55,6 +53,15 @@ class Email_management_model extends CI_Model {
         }
 	}
 
+	function set_delivered_instant_email($input_array)
+	{
+		$data = array(
+               'status' => 1,
+            );
+
+		$this->db->where('id', $input_array['id']);
+		return $this->db->update('instant_email_queue', $data); 
+	}
 
 }
 

@@ -9,7 +9,6 @@ class Covernote_insurance
 	{
         $this->CIM =& get_instance();
  		$this->CIM->load->library('utilities');
- 		$this->CIM->load->model('covernote_insurance_model');
 	}
 
 	/**

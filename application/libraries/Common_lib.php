@@ -9,13 +9,19 @@ class Common_lib
 	{
         $this->CIM =& get_instance();
         $this->CIM->load->library('utilities');
-        $this->load->model('email_management_model');
+        $this->CIM->load->model('email_management_model');
 	}
 
-
+    /**
+     * This function use to authenticate applications
+     * 
+     * @param  string $api_key     
+     * @param  array $input_array 
+     * @return boolean              
+     */
 	public function authentication($api_key, $input_array)
 	{
-        $auth_status = $this->email_management_model->app_authentication($api_key, $input_array['app_code']);
+        $auth_status = $this->CIM->email_management_model->app_authentication($api_key, $input_array['app_code']);
         return $auth_status;
 	}
 
