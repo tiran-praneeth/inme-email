@@ -1,25 +1,25 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Covernote_insurance
+class Covernote_customer
 {
 	protected $CIM;
 
 	public function __construct()
 	{
         $this->CIM =& get_instance();
- 		$this->CIM->load->library('utilities');
+        $this->CIM->load->library('utilities');
 	}
 
 	/**
-	 * This funtion use to generate success covernote html template
+	 * This funtion use to generate success covernote html template for customer
 	 * 
 	 * @param  array $data_array 
 	 * @return string             
 	 */
 	public function generate_covernote_success_html($data_array)
 	{
-		$html_view 	= $this->vehi_details_html(); // success covernote section 1
+		$html_view 	= $this->section_head_html(); // success covernote section 1
 		$html_view .= $this->policy_docs_list_html($data_array['documents']); // success covernote section 2
 		$html_view .= $this->section_end_html(); // success covernote section 3
 
@@ -33,19 +33,14 @@ class Covernote_insurance
 	 * 
 	 * @return string 
 	 */
-	private function vehi_details_html()
+	private function section_head_html()
 	{
 		return 'Dear Sir/Madam,
 				<br><br>
-				<p>We have issued a type_of_cover insurance cover note for the following vehicle and the details are as below</p>
+				<p>We thank you for using insureme.lk.</p>
+				<p>A type_of_cover insurance cover note for your vehicle veh_registration_no has been issued under insurence_company is attached herewith.</p>
 				<br>
-				Customer Name : title name_initials
-				<br>
-				Vehicle No    : veh_registration_no
-				<br>
-				Customer Mobile No    : mobile_no
-				<br><br>
-				<p>We will submit the following documents to obtain the final policy</p>';
+				<p>Please submit the following documents to obtain the full insurance policy.</p>';
 	}
 
 	/**
@@ -80,5 +75,5 @@ class Covernote_insurance
 
 }
 
-/* End of file Covernote_insurance.php */
-/* Location: ./application/libraries/covernote/Covernote_insurance.php */
+/* End of file Covernote_customer.php */
+/* Location: ./application/libraries/templates/Covernote_customer.php */
