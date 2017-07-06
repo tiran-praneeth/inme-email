@@ -72,15 +72,15 @@ class Email_management extends CI_Controller {
     				$insert_email = $GLOBALS['this']->email_management_model->insert_instant_email_queue($input_array);
 
     				if ($insert_email) {
-    					return array('success' => 'Email queued successfully');
+    					return array('email_status' => 'Email queued successfully');
     				} else {
-    					return array('error' => 'Email queued fail');
+    					return array('error' => 'Email queued failed');
     				}
     			} else {
-    				return array('error' => 'Authentication fail');
+    				return array('error' => 'Authentication failed');
     			}
         	} else {
-        		return array('error' => 'Authentication fail');
+        		return array('error' => 'Authentication failed');
         	}
 		}
 

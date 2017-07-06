@@ -63,6 +63,16 @@ class Email_management_model extends CI_Model {
 		return $this->db->update('instant_email_queue', $data); 
 	}
 
+	function set_failed_instant_email($input_array)
+	{
+		$data = array(
+               'status' => 3,
+            );
+
+		$this->db->where('id', $input_array['id']);
+		return $this->db->update('instant_email_queue', $data); 
+	}
+
 }
 
 /* End of file Email_management_model.php */

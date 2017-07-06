@@ -11,7 +11,12 @@ class Instant_email_queue_mgt extends CI_Controller {
 		$this->load->model('email_management_model');
 	}
 
-	public function insert_email_queues()
+	/**
+	 * This function use to send instant emails using cron job
+	 * 
+	 * @return void
+	 */
+	public function send_instant_email_queue()
 	{
 		$email_queue_list = $this->email_management_model->get_instant_email_queue();
 		
@@ -38,10 +43,10 @@ class Instant_email_queue_mgt extends CI_Controller {
 			$send_email = $this->common_lib->send_email($primary_email, $cc_email, $bcc_email, $email_template_list['email_subject'], $html_view, $attached_url);
 
 			if ($send_email == 1) {
-
 				echo $this->email_management_model->set_delivered_instant_email($input_array);
 
 			} else {
+				$this->email_management_model->set_failed_instant_email($input_array);
 				echo $send_email;
 			}
 			

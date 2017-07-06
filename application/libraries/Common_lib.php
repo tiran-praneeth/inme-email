@@ -76,7 +76,10 @@ class Common_lib
         if ($this->CIM->email->send()) {
             return 1;
         } else {
-            return (ENVIRONMENT === 'production') ? 0 : show_error($this->CIM->email->print_debugger()); // Email debugger option 
+            return 0;
+
+            /* Email debugger option */
+            // return show_error($this->CIM->email->print_debugger());
         }
     }
 
