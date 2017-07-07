@@ -17,13 +17,41 @@ class Email_management_model extends CI_Model {
 
 	function get_instant_email_queue()
 	{
+		$this->db->trans_start();
+
 		$this->db->select('id, app_code, email_template, primary_email, cc_email, bcc_email, email_data, attached_url');
 		$this->db->from('instant_email_queue');
+		$this->db->where('email_batch_no', NULL);
 		$this->db->where('status',0);
 		$this->db->limit(5, 0);
 
 		$result = $this->db->get()->result_array();
-		return $result;
+
+        if (!(empty($result))) {
+
+        	/* genarate request id */
+	        $insert_arry = array('current_date' => date("Y-m-d"));
+	        $this->db->insert('seq_instant_email_no', $insert_arry); // insert the date 
+	        $email_seq_no = $this->db->insert_id(); // get the insert result id
+
+	        $email_seq_final_id = str_pad($email_seq_no, 5, "0", STR_PAD_LEFT); // set id to a 5 digit number
+	        $email_batch_id     = date("Ymd").$email_seq_final_id; // add genarate the sequence number using date and the id
+
+	        foreach ($result as $key => $value) {
+				$update_data = array('email_batch_no' => $email_batch_id);
+				$this->db->where('id', $value['id']);
+				$this->db->update('instant_email_queue', $update_data); 
+	        }
+        }
+        
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+        	return 0;
+        }else{
+       		return $result;
+       }
+
 	}
 
 	function app_authentication($api_key, $app_code)
