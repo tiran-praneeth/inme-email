@@ -20,10 +20,10 @@ class Instant_email_queue_mgt extends CI_Controller {
 	{
 		$email_queue_list = $this->email_management_model->get_instant_email_queue();
 		
-		if ($email_queue_list == 0) {
+		if ($email_queue_list != 0) {
 
 			foreach ($email_queue_list as $input_array) {
-				
+
 				$email_template      = $input_array['email_template'];
 				$email_template      = $input_array['email_template'];
 				$email_template_list = $this->email_management_model->get_email_fun_list($input_array)[0];
@@ -59,7 +59,7 @@ class Instant_email_queue_mgt extends CI_Controller {
 				}
 			}
 		} else {
-			echo array('error' => 'database transaction error');
+			print_r(array('error' => 'database transaction error'));
 		}
 		
 
